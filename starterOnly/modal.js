@@ -27,8 +27,7 @@ function closeModal(){
   modalbg.style.display = "none";
 }
 
-function getAge(){
-  const birthdate = document.getElementById('birthdate').value;
+function getAge(birthdate){
   const today = new Date();
 
   const yearsDiff = today.getFullYear() - birthdate.getFullYear();
@@ -45,12 +44,10 @@ function getAge(){
   return age;
 }
 
-function displayError($errorMessage , $divErrorName, event){
+function displayError($errorMessage , $divErrorName){
   const errorMessage = $errorMessage;
-  $divErrorName.setAttribute("data-error", errorMessage); ;
+  $divErrorName.setAttribute("data-error", errorMessage); 
   $divErrorName.setAttribute("data-error-visible", "true");
-  event.preventDefault();//empêcher l'envoi car il y a une erreur
-  return; //sortir de la fonction pour empêcher le reste du code d'être éxécuté
 }
 
 function validate(event) {
@@ -71,38 +68,43 @@ function validate(event) {
     const termsError = document.getElementById('termsError');
     const confirmation = document.querySelector('[data-success=confirmation]');
 
+    // Réinitialiser l'affichage des messages d'erreur
+    firstNameError.setAttribute("data-error-visible", "false");
+    lastNameError.setAttribute("data-error-visible", "false");
+    emailError.setAttribute("data-error-visible", "false");
+    birthdateError.setAttribute("data-error-visible", "false");
+    locationError.setAttribute("data-error-visible", "false");
+    termsError.setAttribute("data-error-visible", "false");
+
     if(firstName.length < 2 || firstName.length >50){
-      const errorMessage = 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.';
-      firstNameError.setAttribute("data-error", errorMessage); ;
-      firstNameError.setAttribute("data-error-visible", "true");
+      displayError('Veuillez entrer 2 caractères ou plus pour le champ du prénom.', firstNameError);
       event.preventDefault();//empêcher l'envoi car il y a une erreur
       return; //sortir de la fonction pour empêcher le reste du code d'être éxécuté
     }
 
     if(lastName.length < 2 || lastName.length > 50){
-      const errorMessage = 'Veuillez entrer 2 caractères ou plus pour le champ du nom.';
-      lastNameError.setAttribute("data-error", errorMessage); ;
-      lastNameError.setAttribute("data-error-visible", "true");
+      displayError('Veuillez entrer 2 caractères ou plus pour le champ du nom.', lastNameError);
       event.preventDefault();
       return;
     }
 
     if(!emailRegex.test(email) || email ==""){
-      const errorMessage = 'Veuillez entrer une adresse email valide';
-      emailError.setAttribute("data-error", errorMessage); ;
-      emailError.setAttribute("data-error-visible", "true");
+      displayError('Veuillez entrer une adresse email valide', emailError);
       event.preventDefault();
-      return;
+      return
     }
 
-    if(getAge() < 18){
-      const errorMessage = 'Veuillez entrer une date de naissance valide';
-      birthdateError.setAttribute("data-error", errorMessage); ;
-      birthdateError.setAttribute("data-error-visible", "true");
+    if(!birthdate){
+      displayError('Veuillez entrer votre date de naissance', birthdateError);
       event.preventDefault();
-      return;
+      return
     }
-
+    else if(getAge(new Date(birthdate)) < 18 ){
+      displayError('Vous devez être majeur pour vous inscrire', birthdateError);
+      event.preventDefault();
+      return
+    }
+      
     let numChecked = 0;
     for (let i = 0; i < radios.length; i++){
         if(radios[i].checked){
@@ -111,19 +113,15 @@ function validate(event) {
     }
 
     if (numChecked !==1) {
-      const errorMessage = 'Veuillez choisir une option';
-      locationError.setAttribute("data-error", errorMessage); ;
-      locationError.setAttribute("data-error-visible", "true");
+      displayError('Veuillez choisir une option', locationError);
       event.preventDefault();
-      return;
+      return
     }
 
     if(!termsAndConditions.checked){
-      const errorMessage = 'Vous devez vérifier que vous acceptez les termes et conditions.';
-      termsError.setAttribute("data-error", errorMessage); ;
-      termsError.setAttribute("data-error-visible", "true");
+      displayError('Vous devez vérifier que vous acceptez les termes et conditions.', termsError);
       event.preventDefault();
-      return;
+      return
     } 
     
     confirmation.innerHTML = 'Merci ! Votre réservation a été reçue.';
