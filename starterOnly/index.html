@@ -102,7 +102,6 @@
                   type="date"
                   id="birthdate"
                   name="birthdate"
-                  data-error="birthdate"
                 /><br>
               </div>
               <div class="formData" id="birthdateError" data-error=""></div>
@@ -111,6 +110,7 @@
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
+              <div class="formData" id="nbTournamentError" data-error=""></div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
                 class="formData">
@@ -209,8 +209,16 @@
                 value="C'est parti"
               />
               <br>
-              <span class="success-message" data-success="confirmation"></span>
             </form>
+          </div>
+        </div>
+      </div>
+      <div class="bground"  data-success="confirmation">
+        <div class="content">
+          <span class="close"></span>
+          <div class="modal-body">
+            <h2 class="modal-title">Confirmation</h2>
+            <p>Merci pour votre inscription !</p>
           </div>
         </div>
       </div>

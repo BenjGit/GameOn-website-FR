@@ -12,7 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const closeBtn = document.querySelectorAll(".close"); // add close btn
 const formData = document.querySelectorAll(".formData");
-
+const confirmation = document.querySelector('[data-success=confirmation]');
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 //close modal event
@@ -25,6 +25,7 @@ function launchModal() {
 // close modal form
 function closeModal(){
   modalbg.style.display = "none";
+  confirmation.style.display = "none";
 }
 
 function getAge(birthdate){
@@ -51,6 +52,7 @@ function displayError($errorMessage , $divErrorName){
 }
 
 function validate(event) {
+   
 
     const form = document.querySelector('form');
     const firstName = document.getElementById("first").value;
@@ -62,17 +64,19 @@ function validate(event) {
     const email = document.getElementById('email').value;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailError = document.getElementById('emailError');
+    const nbTournament =document.getElementById('quantity');
+    const nbTournamentError = document.getElementById('nbTournamentError');
     const radios = document.getElementsByName('location');
     const locationError = document.getElementById('locationError');
     const termsAndConditions = document.getElementById('checkbox1');
     const termsError = document.getElementById('termsError');
-    const confirmation = document.querySelector('[data-success=confirmation]');
-
+    
     // Réinitialiser l'affichage des messages d'erreur
     firstNameError.setAttribute("data-error-visible", "false");
     lastNameError.setAttribute("data-error-visible", "false");
     emailError.setAttribute("data-error-visible", "false");
     birthdateError.setAttribute("data-error-visible", "false");
+    nbTournamentError.setAttribute("data-error-visible", "false");
     locationError.setAttribute("data-error-visible", "false");
     termsError.setAttribute("data-error-visible", "false");
 
@@ -104,7 +108,17 @@ function validate(event) {
       event.preventDefault();
       return
     }
-      
+     
+    if(nbTournament.value === '')
+    {
+      nbTournament.defaultValue = 0;
+    }
+    else if(nbTournament.value < 0 || nbTournament.value > 99){
+      displayError("Veuillez entrer un nombre entre 0 et 99", nbTournamentError);
+      event.preventDefault();
+      return
+    }
+
     let numChecked = 0;
     for (let i = 0; i < radios.length; i++){
         if(radios[i].checked){
@@ -123,9 +137,10 @@ function validate(event) {
       event.preventDefault();
       return
     } 
-    
-    confirmation.innerHTML = 'Merci ! Votre réservation a été reçue.';
-    event.preventDefault();
-    form.submit();
-  
+
+    if(form.checkValidity()){
+      modalbg.style.display = "none";
+      confirmation.style.display = "block";
+      event.preventDefault();
+    }
 }
