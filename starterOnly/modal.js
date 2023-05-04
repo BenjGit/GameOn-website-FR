@@ -81,13 +81,13 @@ function validate(event) {
     termsError.setAttribute("data-error-visible", "false");
 
     if(firstName.length < 2 || firstName.length >50){
-      displayError('Veuillez entrer 2 caractères ou plus pour le champ du prénom.', firstNameError);
+      displayError('Veuillez entrer 2 caractères ou plus pour le prénom.', firstNameError);
       event.preventDefault();//empêcher l'envoi car il y a une erreur
       return; //sortir de la fonction pour empêcher le reste du code d'être éxécuté
     }
 
     if(lastName.length < 2 || lastName.length > 50){
-      displayError('Veuillez entrer 2 caractères ou plus pour le champ du nom.', lastNameError);
+      displayError('Veuillez entrer 2 caractères ou plus pour le nom.', lastNameError);
       event.preventDefault();
       return;
     }
@@ -133,7 +133,7 @@ function validate(event) {
     }
 
     if(!termsAndConditions.checked){
-      displayError('Vous devez vérifier que vous acceptez les termes et conditions.', termsError);
+      displayError('Vous devez acceptez les termes et conditions.', termsError);
       event.preventDefault();
       return
     } 
@@ -141,6 +141,7 @@ function validate(event) {
     if(form.checkValidity()){
       modalbg.style.display = "none";
       confirmation.style.display = "block";
+      form.reset();
       event.preventDefault();
     }
 }
