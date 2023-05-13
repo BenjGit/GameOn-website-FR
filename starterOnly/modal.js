@@ -9,6 +9,7 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
+const submitBtn = document.querySelector(".btn-submit");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const closeBtn = document.querySelectorAll(".close"); // add close btn
 const formData = document.querySelectorAll(".formData");
@@ -18,7 +19,9 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 //close modal event
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
-// launch modal form
+submitBtn.addEventListener("click", (event) => validate(event));
+
+
 function launchModal() {
   modalbg.style.display = "block";
 }
@@ -27,7 +30,11 @@ function closeModal(){
   modalbg.style.display = "none";
   confirmation.style.display = "none";
 }
-
+/**
+ * 
+ * @param {*} birthdate année de naissance 
+ * @returns {int} retourne l'age 
+ */
 function getAge(birthdate){
   const today = new Date();
 
@@ -45,15 +52,25 @@ function getAge(birthdate){
   return age;
 }
 
+
+/**
+ * permet d'afficher un message d'erreur
+ * @param {string} $errorMessage
+ * choisir la balise dans laquelle afficher le message d'erreur 
+ * @param {string} $divErrorName 
+ */
 function displayError($errorMessage , $divErrorName){
   const errorMessage = $errorMessage;
   $divErrorName.setAttribute("data-error", errorMessage); 
   $divErrorName.setAttribute("data-error-visible", "true");
 }
-
+/**
+ * 
+ * @param {*} event 
+ * @returns //
+ */
 function validate(event) {
    
-
     const form = document.querySelector('form');
     const firstName = document.getElementById("first").value;
     const firstNameError = document.getElementById('firstError');
@@ -113,6 +130,7 @@ function validate(event) {
     {
       nbTournament.defaultValue = 0;
     }
+    
     else if(nbTournament.value < 0 || nbTournament.value > 99){
       displayError("Veuillez entrer un nombre entre 0 et 99", nbTournamentError);
       event.preventDefault();
@@ -131,7 +149,7 @@ function validate(event) {
       event.preventDefault();
       return
     }
-
+    
     if(!termsAndConditions.checked){
       displayError('Vous devez acceptez les termes et conditions.', termsError);
       event.preventDefault();
@@ -139,9 +157,10 @@ function validate(event) {
     } 
 
     if(form.checkValidity()){
+      form.reset();
       modalbg.style.display = "none";
       confirmation.style.display = "block";
-      form.reset();
       event.preventDefault();
     }
+    
 }
