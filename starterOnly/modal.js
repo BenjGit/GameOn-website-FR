@@ -14,13 +14,12 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const closeBtn = document.querySelectorAll(".close"); // add close btn
 const formData = document.querySelectorAll(".formData");
 const confirmation = document.querySelector('[data-success=confirmation]');
-// launch modal event
+//launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 //close modal event
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 
 submitBtn.addEventListener("click", (event) => validate(event));
-
 
 function launchModal() {
   modalbg.style.display = "block";
