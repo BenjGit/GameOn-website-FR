@@ -105,13 +105,14 @@ function validate(event) {
     locationError.setAttribute("data-error-visible", "false");
     termsError.setAttribute("data-error-visible", "false");
 
-    if(firstName.length < 2 || firstName.length >50 || firstNameSpace.length > 2){
+    //vérifie si le prenom est compris entre 2 et 50 caractères ou si il n'a pas plus de deux espace ou si il ne commence ou ne fini pas par un espace
+    if(firstName.length < 2 || firstName.length >50 || firstNameSpace.length > 2 || firstName.trim() !== firstName){
       displayError("Veuillez entrer 2 caractères ou plus pour le prénom", firstNameError);
       event.preventDefault();//empêcher l'envoi car il y a une erreur
       isValid = false;
     }
 
-    if(lastName.length < 2 || lastName.length > 50 || lastNameSpace.length > 2){
+    if(lastName.length < 2 || lastName.length > 50 || lastNameSpace.length > 2 || lastName.trim() !== lastName){
       displayError("Veuillez entrer 2 caractères ou plus pour le nom", lastNameError);
       event.preventDefault();
       isValid = false;
